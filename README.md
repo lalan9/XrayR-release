@@ -8,13 +8,22 @@ A Xray backend framework that can easily support many panels.
 [教程](https://crackair.gitbook.io/xrayr-project/)
 
 # 一键安装
-
+bob
 ```
 bash <(curl -Ls https://raw.githubusercontent.com/BobCoderS9/XrayR-release/master/install.sh)
 ```
 
-# 暂不支持docker
+我修改的
+
+```
+bash <(curl -Ls https://raw.githubusercontent.com/lalan9/XrayR-release/master/install.sh)
+
+```
+
+
+# docker
+
+
 
 # 交流群
 
-加入群组[https://t.me/BobShareGroup]
