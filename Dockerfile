@@ -1,16 +1,17 @@
-FROM debian:11
+# Build go
+FROM golang:1.21.4-alpine AS builder
+WORKDIR /app
+COPY . .
+ENV CGO_ENABLED=0
+RUN go mod download
+RUN go build -v -o XrayR -trimpath -ldflags "-s -w -buildid="
 
-# 安装curl和其他必要工具
-RUN apt-get update && apt-get install -y curl
+# Release
+FROM  alpine
+# 安装必要的工具包
+RUN  apk --update --no-cache add tzdata ca-certificates \
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN mkdir /etc/XrayR/
+COPY --from=builder /app/XrayR /usr/local/bin
 
-# 下载并安装XrayR
-RUN bash -c 'bash <(curl -Ls https://raw.githubusercontent.com/BobCoderS9/XrayR-release/master/install.sh)'
-
-# 暴露端口4399
-EXPOSE 4399
-
-# 容器启动时执行的命令
-CMD ["xrayr"]
-
-# 容器命名为xrayrbob
-LABEL name="xrayrbob"
+ENTRYPOINT [ "XrayR", "--config", "/etc/XrayR/config.yml"]
